@@ -87,21 +87,32 @@
          }, true);
      }
 
+     function isEmpty(x, y) {
+         if (x > 0 && x < width && y > 0 && y < height)
+             return (map[Math.floor(x)][Math.floor(y)] === 0);
+         return false;
+     }
+
     function move() {
         const moveStep = player.speed * player.moveSpeed;
 
         player.rotation += player.direction * player.rotationSpeed;
-        player.x = player.x + Math.cos(player.rotation) * moveStep;
-        player.y = player.y + Math.sin(player.rotation) * moveStep;
+        let newX = player.x + Math.cos(player.rotation) * moveStep;
+        let newY = player.y + Math.sin(player.rotation) * moveStep;
+
+        if (isEmpty(newX, newY)) {
+            player.x = newX;
+            player.y = newY;
+        }
     }
 
     function updateMinimap() {
         const objectsCtx = objects.getContext('2d');
 
         objectsCtx.clearRect(0, 0, minimap.width, minimap.height);
-        objectsCtx.fillRect(player.x * scale, player.y * scale, scale, scale);
+        objectsCtx.fillRect(player.x * scale - 2, player.y * scale - 2, 4, 4);
         objectsCtx.beginPath();
-        objectsCtx.moveTo(player.x * scale + 4, player.y * scale + 4);
+        objectsCtx.moveTo(player.x * scale, player.y * scale);
         objectsCtx.lineTo(
             (player.x + Math.cos(player.rotation) * 4) * scale,
             (player.y + Math.sin(player.rotation) * 4) * scale
