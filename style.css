@@ -5,3 +5,12 @@
 #objects {
     position: absolute;
 }
+
+#screen {
+    height: 200px;
+    width: 320px;
+    position: absolute;
+    left: 300px;
+    top: 30px;
+    overflow: hidden;
+}
